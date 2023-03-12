@@ -1,0 +1,20 @@
+.card {
+    margin-top: 0px !important;
+}
+
+#wpcontent {
+    padding-left: 0;
+}
+
+.app-content-container > div:first-child {
+padding:3px;
+}
+
+.app-content-container .card {
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    margin-left: 0 !important;   
+    margin-top: 0px !important;
+    padding: 0;
+}

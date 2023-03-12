@@ -1,0 +1,8 @@
+{
+    "Account": true,
+    "Base": true,
+    "Core": true,
+    "Isp": true,
+    "Mpesa": true,
+    "Partner": true
+}
