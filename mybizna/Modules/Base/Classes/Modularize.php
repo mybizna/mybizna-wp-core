@@ -2,6 +2,7 @@
 
 namespace Modules\Base\Classes;
 
+use Auth;
 use Illuminate\Support\Str;
 
 class Modularize
@@ -17,8 +18,28 @@ class Modularize
         $this->model = $model;
     }
 
+    public function checkUserCan($user)
+    {
+        $user = Auth::user();
+
+        $roles = $user->getRoleNames();
+
+        if (empty($roles)) {
+            $user->assignRole('registered');
+        }
+
+        return $user->can($this->module . "_" . $this->model . "_view");
+
+    }
+
     public function getAllRecords($args)
     {
+        $can = $this->checkUserCan($this->module . "_" . $this->model . "_view");
+
+        if (!$can) {
+            return $this->prepareResult('User does not have right to view ' . $this->module . '-' . $this->model, true);
+        }
+
         $classname = $this->getClassName($this->module, $this->model);
 
         if ($classname) {
@@ -37,6 +58,12 @@ class Modularize
 
     public function getRecord($id, $args = [])
     {
+        $can = $this->checkUserCan($this->module . "_" . $this->model . "_view");
+
+        if (!$can) {
+            return $this->prepareResult('User does not have right to view ' . $this->module . '-' . $this->model, true);
+        }
+
         $classname = $this->getClassName($this->module, $this->model);
 
         if ($classname) {
@@ -54,6 +81,12 @@ class Modularize
 
     public function getRecordSelect($args)
     {
+        $can = $this->checkUserCan($this->module . "_" . $this->model . "_view");
+
+        if (!$can) {
+            return $this->prepareResult('User does not have right to view ' . $this->module . '-' . $this->model, true);
+        }
+
         $classname = $this->getClassName($this->module, $this->model);
 
         if ($classname) {
@@ -71,6 +104,12 @@ class Modularize
 
     public function createRecord($args = [])
     {
+        $can = $this->checkUserCan($this->module . "_" . $this->model . "_add");
+
+        if (!$can) {
+            return $this->prepareResult('User does not have right to add ' . $this->module . '-' . $this->model, true);
+        }
+
         $classname = $this->getClassName($this->module, $this->model);
 
         if ($classname) {
@@ -86,15 +125,21 @@ class Modularize
         return $result;
     }
 
-    public function updateRecord($args = [])
+    public function updateRecord($id, $args = [])
     {
+        $can = $this->checkUserCan($this->module . "_" . $this->model . "_edit");
+
+        if (!$can) {
+            return $this->prepareResult('User does not have right to edit ' . $this->module . '-' . $this->model, true);
+        }
+
         $classname = $this->getClassName($this->module, $this->model);
 
         if ($classname) {
             if (method_exists($classname, 'updateRecord')) {
                 $classname->module = $this->module;
                 $classname->model = $this->model;
-                $result = $classname->updateRecord($args);
+                $result = $classname->updateRecord($id, $args);
             }
         } else {
             $result = $this->prepareResult('No Model Found with name ' . $this->module . '-' . $this->model);
@@ -105,6 +150,12 @@ class Modularize
 
     public function deleteRecord($id)
     {
+        $can = $this->checkUserCan($this->module . "_" . $this->model . "_delete");
+
+        if (!$can) {
+            return $this->prepareResult('User does not have right to delete ' . $this->module . '-' . $this->model, true);
+        }
+
         $classname = $this->getClassName($this->module, $this->model);
 
         if ($classname) {
@@ -145,6 +196,24 @@ class Modularize
         $fetchvue = new FetchVue();
 
         return $fetchvue->fetchVue($current_uri);
+    }
+
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    //Fetching Rights
+    public function fetchRights()
+    {
+        $fetchrights = new FetchRights();
+
+        return $fetchrights->fetchRights();
+    }
+
+    //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    //Fetching Menu
+    public function fetchPositions()
+    {
+        $fetchpositions = new FetchPositions();
+
+        return $fetchpositions->fetchPositions();
     }
 
     //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

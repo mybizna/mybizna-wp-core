@@ -11,10 +11,13 @@
                         validation="required" />
                     <FormKit label="Last Name" id="last_name" type="text" v-model="model.last_name" validation="required" />
                     <FormKit label="Company" id="company" type="text" v-model="model.company" validation="required" />
-                    <FormKit label="Country" id="country_id" type="recordselect" comp_url="core/admin/country/recordselect"
-                        v-model="model.country_id" validation="required" />
-                    <FormKit label="Currency" id="currency_id" type="recordselect"
-                        comp_url="core/admin/currency/recordselect" v-model="model.currency_id" validation="required" />
+
+                    <FormKit label="Country" id="country_id" type="recordselect" v-model="model.country_id"
+                        :setting="setting.country_id" validation="required" />
+
+                    <FormKit label="Currency" id="currency_id" type="recordselect" v-model="model.currency_id"
+                        :setting="setting.currency_id" validation="required" />
+
                 </div>
             </div>
             <div class="col-md-6">
@@ -66,11 +69,34 @@
 <script>
 export default {
 
+    watch: {
+        // whenever question changes, this function will run
+        'id' (newQuestion, oldQuestion) {
+
+            alert(newQuestion);
+
+        },
+    },
+
     data() {
         return {
             id: null,
+            setting: {
+                country_id: {
+                    url: "core/admin/country/recordselect",
+                    fields: ['name', 'code'],
+                    template: '[name] [code]',
+                },
 
+                currency_id: {
+                    url: "core/admin/currency/recordselect",
+                    fields: ['name', 'code'],
+                    template: '[name] [code]',
+                },
+
+            },
             model: {
+                id: "",
                 user_id: "",
                 first_name: "",
                 last_name: "",

@@ -2,6 +2,7 @@
 
 namespace Modules\Base\Entities;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -86,6 +87,10 @@ class BaseModel extends \Illuminate\Database\Eloquent\Model
 
         static::updated(function ($model) {
             event(new ModelUpdated($model->getTableName(), $model));
+        });
+
+        static::addGlobalScope('order', function (Builder $builder) {
+            $builder->orderBy('id', 'DESC');
         });
 
     }
@@ -258,7 +263,7 @@ class BaseModel extends \Illuminate\Database\Eloquent\Model
         return $result;
     }
 
-    public function updateRecord($args = [])
+    public function updateRecord($id, $args = [])
     {
         $result = [
             'module' => $this->module,
@@ -270,12 +275,13 @@ class BaseModel extends \Illuminate\Database\Eloquent\Model
         ];
 
         try {
-
-            $this->fill($args);
-
+            $record = $this->where('id', $id)->first();
+            
+            $record->fill($args);
+            
             $result['error'] = 0;
             $result['status'] = 1;
-            $result['record'] = $this->save();
+            $result['record'] = $record->save();
             $result['message'] = 'Record Updated Successfully.';
         } catch (\Throwable$th) {
             throw $th;
@@ -294,7 +300,7 @@ class BaseModel extends \Illuminate\Database\Eloquent\Model
             'message' => 'No Record.',
         ];
 
-        if (isset($this->can_delete) && $this->can_delete) {
+        if (!isset($this->can_delete) || $this->can_delete) {
             try {
                 $result['error'] = 0;
                 $result['status'] = 1;

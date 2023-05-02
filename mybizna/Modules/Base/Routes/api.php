@@ -32,6 +32,8 @@ $apicontroller = 'Modules\Base\Http\Controllers\BaseController';
 Route::get('discover_modules',  $apicontroller . '@discoverModules');
 Route::get('fetch_menus', $apicontroller . '@fetchMenus');
 Route::get('fetch_routes', $apicontroller . '@fetchRoutes');
+Route::get('fetch_positions', $apicontroller . '@fetchPositions');
+Route::get('fetch_rights', $apicontroller . '@fetchRights');
 Route::get('fetch_settings', $apicontroller . '@fetchSettings');
 
 
@@ -55,7 +57,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post($prefix, $apicontroller . '@createRecord');
     Route::post($prefix . '/{id}', $apicontroller . '@updateRecord')->where(['id' => '[0-9]+']);
     Route::delete($prefix . '/{id}', $apicontroller . '@deleteRecord')->where(['id' => '[0-9]+']);
-    Route::match(['get', 'post'], $prefix . '/{function}/',  $apicontroller . '@functionCall');
 });
 
 

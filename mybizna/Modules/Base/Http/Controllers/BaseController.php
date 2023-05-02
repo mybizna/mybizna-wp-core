@@ -107,7 +107,7 @@ class BaseController extends Controller
     {
         $modularize = new Modularize($module, $model);
 
-        $args = $request->query();
+        $args = $request->all();
 
         $result = $modularize->updateRecord($id, $args);
 
@@ -121,11 +121,6 @@ class BaseController extends Controller
         $result = $modularize->deleteRecord($id);
 
         return Response::json($result);
-    }
-
-    public function functionCall(Request $request, $module, $model, $function)
-    {
-        // logic to update a record record goes here
     }
 
     public function discoverModules(Request $request)
@@ -142,6 +137,23 @@ class BaseController extends Controller
         $modularize = new Modularize();
 
         $result = $modularize->fetchRoutes();
+
+        return Response::json($result);
+    }
+
+    public function fetchRights(Request $request)
+    {
+        $modularize = new Modularize();
+
+        $result = $modularize->fetchRights();
+
+        return Response::json($result);
+    }
+    public function fetchPositions(Request $request)
+    {
+        $modularize = new Modularize();
+
+        $result = $modularize->fetchPositions();
 
         return Response::json($result);
     }

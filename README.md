@@ -8,7 +8,7 @@
 
 ## About Mybizna
 
-Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Laravel. It is developed using laravel which is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. 
+Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Wordpress. It is developed using laravel which is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. 
 
 
 ## Core Components
@@ -25,49 +25,10 @@ Mybizna is an open-source ERP (Enterprise Resource Planning) solution for Larave
 
 ## Installation
 
-```
-git clone --depth 1 https://github.com/mybizna/mybizna
+Download the latest plugin zipped and upload to your website.
 
-cd mybizna
+https://github.com/mybizna/mybizna-wp-core/archive/refs/heads/main.zip
 
-git submodule init
-git submodule update
-git submodule foreach 'git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD); git submodule update --recursive; git clean -dfx'
-
-cp .env.example .env
-
-composer install
-composer dump-autoload -o
-
-php artisan automigrator:migrate
-
-php artisan tinker
-$user = new App\Models\User();
-$user->password = Hash::make('johndoe');
-$user->email = 'johndoe@johndoe.com';
-$user->name = 'John Doe';
-$user->username = 'johndoe';
-$user->phone = '0723232323';
-$user->save();
-
-php artisan mybizna:dataprocessor
-
-php artisan vendor:publish --provider="Mybizna\Assets\Providers\MybiznaAssetsProvider"
-
-php artisan key:generate
-
-php artisan serve
-
-```
-
-If you want to run build for js and css Resources from scratch.
-
-```
-
-npm install
-npm run build
-
-```
 
 ## Who's behind?
 

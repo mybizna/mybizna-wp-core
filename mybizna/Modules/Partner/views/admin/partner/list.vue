@@ -8,7 +8,6 @@
             <th-render>Phone</th-render>
             <th-render>Mobile</th-render>
             <th-render>Country</th-render>
-            <th-render>Currency</th-render>
         </template>
 
         <template #body="{ item }">
@@ -17,8 +16,12 @@
             <td>{{ item.email }}</td>
             <td>{{ item.phone }}</td>
             <td>{{ item.mobile }}</td>
-            <td>{{ item.country_id }}</td>
-            <td>{{ item.currency_id }}</td>
+            <td>
+                {{ item.country_id__core_country__name }}
+                <span v-if="item.country_id__core_country__code">
+                    ({{ item.country_id__core_country__code }})
+                </span>
+            </td>
         </template>
 
     </table-render>
@@ -28,7 +31,10 @@
 export default {
     data() {
         return {
-            table_fields: ['first_name', 'last_name', 'email', 'phone', 'mobile', 'country_id', 'currency_id'],
+            table_fields: [
+                'first_name', 'last_name', 'email', 'phone', 'mobile',
+                'country_id__core_country__name', 'country_id__core_country__code',
+            ],
         };
     },
 };
