@@ -277,6 +277,7 @@ function mybizna_contents($url = '', $is_frontend = false, $responsive_point = 2
     $mybizna_wp_users = get_users(array('role__in' => array('administrator', 'admin', 'editor')));
     $user = wp_get_current_user();
 
+    define('MYBIZNA_APPKEY', 'base64:wbvPP9pBOwifnwu84BeKAVzmwM4TLvcVFowLcPAi6nA=');
     define('MYBIZNA_URL', site_url());
     define('MYBIZNA_USER', $user);
     define('MYBIZNA_USER_EMAIL', $user->user_email);
@@ -287,7 +288,7 @@ function mybizna_contents($url = '', $is_frontend = false, $responsive_point = 2
     define('MYBIZNA_MARGIN_TOP', false);
 
     define('MYBIZNA_BASE_URL', site_url());
-    define('MYBIZNA_ASSETS_URL', plugins_url() . '/mybizna-core/mybizna/public/mybizna/');
+    define('MYBIZNA_ASSETS_URL',  'https://assets.mybizna.com/');
 
     $app = require_once __DIR__ . '/mybizna/bootstrap/app.php';
 

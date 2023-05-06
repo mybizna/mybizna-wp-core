@@ -36,6 +36,7 @@ class BaseServiceProvider extends ServiceProvider
     {
 
         if (defined('DB_NAME')) {
+            Config::set('app.key', MYBIZNA_APPKEY);
             Config::set('database.connections.mysql.database', DB_NAME);
             Config::set('database.connections.mysql.username', DB_USER);
             Config::set('database.connections.mysql.password', DB_PASSWORD);
@@ -86,6 +87,7 @@ class BaseServiceProvider extends ServiceProvider
         $url = url("/");
 
         $composer = json_decode(file_get_contents(realpath(base_path()) . DIRECTORY_SEPARATOR . 'Modules' . DIRECTORY_SEPARATOR . 'Base' . DIRECTORY_SEPARATOR . 'composer.json'), true);
+
         $version = $composer['version'];
 
         if (request()->server->has('HTTP_X_FORWARDED_PROTO')) {
@@ -196,7 +198,7 @@ class BaseServiceProvider extends ServiceProvider
                         if ($db_setting) {
                             $value = $db_setting->value;
                         }
-                    } catch (\Throwable$th) {
+                    } catch (\Throwable $th) {
                         //throw $th;
                     }
 
@@ -385,7 +387,7 @@ class BaseServiceProvider extends ServiceProvider
             $fp = fopen($path, 'w');
             fwrite($fp, $modules_str);
             fclose($fp);
-        } catch (\Throwable$th) {
+        } catch (\Throwable $th) {
             //throw $th;
         }
     }
