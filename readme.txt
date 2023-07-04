@@ -3,7 +3,7 @@ Contributors: @mybizna, @dedanirungu
 Donate link: https://mybizna.com/
 Tags: erp, accounting, invoicing, hrm, human resource, mpesa, kopokopo
 Requires at least: 6.0
-Tested up to: 6.1.1
+Tested up to: 6.2
 Stable tag: 1.0.0
 Requires PHP: 8.1
 License: GPLv3 or later
