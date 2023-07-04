@@ -2,8 +2,8 @@
 
 namespace Modules\Partner\Entities\Data;
 
-use Modules\Base\Classes\Datasetter;
 use Illuminate\Support\Facades\DB;
+use Modules\Base\Classes\Datasetter;
 
 class Partner
 {
@@ -16,6 +16,17 @@ class Partner
 
         if (!$partner) {
             $user = DB::table('users')->first();
+
+            if (!$user) {
+                $user = new App\Models\User();
+                $user->password = Hash::make('johndoe');
+                $user->email = 'johndoe@johndoe.com';
+                $user->name = 'John Doe';
+                $user->is_admin = 1;
+                $user->username = 'johndoe';
+                $user->phone = '0723232323';
+                $user->save();
+            }
 
             $name_arr = explode(' ', $user->name);
 

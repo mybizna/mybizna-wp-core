@@ -2,6 +2,12 @@
 
 use Illuminate\Support\Facades\Facade;
 
+$mybizna_url = 'http://localhost';
+
+if (defined('MYBIZNA_RESPONSIVE_POINT')) {
+    $mybizna_url = MYBIZNA_URL;
+}
+
 return [
 
     /*
@@ -54,7 +60,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', MYBIZNA_URL),
+    'url' => env('APP_URL', $mybizna_url),
 
     'asset_url' => env('ASSET_URL'),
 
